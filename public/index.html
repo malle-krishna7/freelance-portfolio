@@ -5,6 +5,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Freelance Portfolio</title>
   <link rel="stylesheet" href="style.css">
+  <script>
+    // Set API base URL for deployed backend
+    // Update this to your deployed backend URL (e.g., https://your-backend.render.com)
+    window.API_BASE_URL = window.location.hostname === 'localhost' 
+      ? '/api' 
+      : 'YOUR_BACKEND_URL'; // Replace with your deployed backend URL
+  </script>
 </head>
 <body>
   <!-- Navigation -->

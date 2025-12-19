@@ -1,5 +1,7 @@
-// API Base URL
-const API_BASE = '/api';
+// API Base URL - uses environment variable or defaults to relative path
+const API_BASE = window.location.hostname === 'localhost' 
+  ? '/api' 
+  : (window.API_BASE_URL || '/api');
 
 // Initialize the portfolio
 document.addEventListener('DOMContentLoaded', () => {
