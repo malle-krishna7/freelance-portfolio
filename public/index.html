@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Freelance Portfolio</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- Navigation -->
+  <header>
+    <nav class="navbar">
+      <div class="nav-container">
+        <div class="logo">
+          <h1 id="profileName">Portfolio</h1>
+        </div>
+        <ul class="nav-menu">
+          <li><a href="#home" class="nav-link">Home</a></li>
+          <li><a href="#about" class="nav-link">About</a></li>
+          <li><a href="#services" class="nav-link">Services</a></li>
+          <li><a href="#projects" class="nav-link">Projects</a></li>
+          <li><a href="#testimonials" class="nav-link">Testimonials</a></li>
+          <li><a href="#contact" class="nav-link">Contact</a></li>
+        </ul>
+        <div class="hamburger">
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <main>
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+      <div class="hero-content">
+        <h1 id="profileTitle">Welcome to My Portfolio</h1>
+        <p id="profileBio">Creating amazing digital experiences</p>
+        <div class="hero-buttons">
+          <a href="#projects" class="btn btn-primary">View My Work</a>
+          <a href="#contact" class="btn btn-secondary">Hire Me</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="section about-section">
+      <div class="container">
+        <h2>About Me</h2>
+        <div class="about-content">
+          <div class="about-text">
+            <p id="aboutDescription">Professional developer with expertise in modern web technologies.</p>
+            <div class="contact-info">
+              <p><strong>Email:</strong> <a id="contactEmail" href="mailto:">Loading...</a></p>
+              <p><strong>Phone:</strong> <span id="contactPhone">Loading...</span></p>
+              <p><strong>Location:</strong> <span id="contactLocation">Loading...</span></p>
+            </div>
+            <div class="social-links">
+              <a id="githubLink" href="#" class="social-btn" target="_blank">GitHub</a>
+              <a id="linkedinLink" href="#" class="social-btn" target="_blank">LinkedIn</a>
+              <a id="twitterLink" href="#" class="social-btn" target="_blank">Twitter</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Skills Section -->
+    <section id="skills" class="section skills-section">
+      <div class="container">
+        <h2>Skills & Expertise</h2>
+        <p class="section-subtitle">Technologies and tools I specialize in</p>
+        <div id="skillsContainer" class="skills-grid">
+          <!-- Skills will be dynamically loaded here -->
+        </div>
+      </div>
+    </section>
+
+    <!-- Services Section -->
+    <section id="services" class="section services-section">
+      <div class="container">
+        <h2>Services</h2>
+        <p class="section-subtitle">Comprehensive solutions for your digital needs</p>
+        <div id="servicesContainer" class="services-grid">
+          <!-- Services will be dynamically loaded here -->
+        </div>
+      </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section id="projects" class="section projects-section">
+      <div class="container">
+        <h2>Featured Projects</h2>
+        <div class="filter-buttons">
+          <button class="filter-btn active" data-filter="all">All</button>
+          <button class="filter-btn" data-filter="Web Development">Web Development</button>
+          <button class="filter-btn" data-filter="Web Application">Web Application</button>
+          <button class="filter-btn" data-filter="Web Design">Web Design</button>
+        </div>
+        <div id="projectsContainer" class="projects-grid">
+          <!-- Projects will be dynamically loaded here -->
+        </div>
+      </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section id="testimonials" class="section testimonials-section">
+      <div class="container">
+        <h2>What Clients Say</h2>
+        <p class="section-subtitle">Real feedback from satisfied clients and partners</p>
+        <div id="testimonialsContainer" class="testimonials-slider">
+          <!-- Testimonials will be dynamically loaded here -->
+        </div>
+      </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="section contact-section">
+      <div class="container">
+        <h2>Get In Touch</h2>
+        <div class="contact-content">
+          <div class="contact-form-wrapper">
+            <form id="contactForm" class="contact-form">
+              <div class="form-group">
+                <label for="name">Name</label>
+                <input type="text" id="name" name="name" required>
+              </div>
+              <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" required>
+              </div>
+              <div class="form-group">
+                <label for="subject">Subject</label>
+                <input type="text" id="subject" name="subject" required>
+              </div>
+              <div class="form-group">
+                <label for="message">Message</label>
+                <textarea id="message" name="message" rows="5" required></textarea>
+              </div>
+              <button type="submit" class="btn btn-primary">Send Message</button>
+              <div id="formMessage" class="form-message"></div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <p>&copy; 2025 Freelance Portfolio. All rights reserved.</p>
+      <p>Designed & Developed with ❤️</p>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

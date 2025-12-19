@@ -1,0 +1,1294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard - Portfolio Manager</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .login-container {
+      background: white;
+      padding: 3rem;
+      border-radius: 12px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+      width: 100%;
+      max-width: 400px;
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    .login-header {
+      text-align: center;
+    }
+
+    .login-header h1 {
+      font-size: 1.8rem;
+      color: #667eea;
+      margin-bottom: 0.5rem;
+    }
+
+    .login-header p {
+      color: #666;
+      font-size: 0.9rem;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .form-group label {
+      font-weight: 600;
+      color: #333;
+      font-size: 0.9rem;
+    }
+
+    .form-group input {
+      padding: 0.75rem;
+      border: 2px solid #e0e0e0;
+      border-radius: 6px;
+      font-size: 1rem;
+      transition: all 0.3s ease;
+    }
+
+    .form-group input:focus {
+      outline: none;
+      border-color: #667eea;
+      box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+    }
+
+    .login-btn {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 0.75rem;
+      border: none;
+      border-radius: 6px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      margin-top: 1rem;
+    }
+
+    .login-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 25px rgba(102, 126, 234, 0.3);
+    }
+
+    .error-msg {
+      color: #e74c3c;
+      padding: 0.75rem;
+      background: #fadbd8;
+      border-radius: 6px;
+      display: none;
+      font-size: 0.9rem;
+    }
+
+    /* Dashboard Styles */
+    .dashboard {
+      display: none;
+      width: 100%;
+      height: 100vh;
+      background: #f5f7fa;
+    }
+
+    .dashboard-container {
+      display: flex;
+      height: 100%;
+    }
+
+    .sidebar {
+      width: 250px;
+      background: white;
+      border-right: 1px solid #e0e0e0;
+      padding: 2rem 1rem;
+      overflow-y: auto;
+      box-shadow: 2px 0 10px rgba(0, 0, 0, 0.05);
+    }
+
+    .sidebar-brand {
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: #667eea;
+      margin-bottom: 2rem;
+      padding-bottom: 1rem;
+      border-bottom: 2px solid #f0f0f0;
+    }
+
+    .sidebar-menu {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .sidebar-menu li a {
+      display: block;
+      padding: 0.75rem 1rem;
+      color: #666;
+      text-decoration: none;
+      border-radius: 6px;
+      transition: all 0.3s ease;
+      cursor: pointer;
+      border-left: 3px solid transparent;
+    }
+
+    .sidebar-menu li a:hover,
+    .sidebar-menu li a.active {
+      background: #f0f2f5;
+      color: #667eea;
+      border-left-color: #667eea;
+    }
+
+    .logout-btn {
+      margin-top: 2rem;
+      padding-top: 1rem;
+      border-top: 2px solid #f0f0f0;
+    }
+
+    .logout-btn a {
+      background: #e74c3c !important;
+      color: white !important;
+      text-align: center;
+    }
+
+    .logout-btn a:hover {
+      background: #c0392b !important;
+    }
+
+    .main-content {
+      flex: 1;
+      overflow-y: auto;
+      padding: 2rem;
+    }
+
+    .top-bar {
+      background: white;
+      padding: 1rem 2rem;
+      border-bottom: 1px solid #e0e0e0;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin: -2rem -2rem 2rem -2rem;
+    }
+
+    .top-bar h2 {
+      font-size: 1.5rem;
+      color: #333;
+    }
+
+    .section {
+      display: none;
+    }
+
+    .section.active {
+      display: block;
+    }
+
+    .section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 2rem;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 0.75rem 1.5rem;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: all 0.3s ease;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 25px rgba(102, 126, 234, 0.3);
+    }
+
+    .btn-secondary {
+      background: #f0f0f0;
+      color: #333;
+      padding: 0.5rem 1rem;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: all 0.3s ease;
+      font-size: 0.9rem;
+    }
+
+    .btn-secondary:hover {
+      background: #e0e0e0;
+    }
+
+    .btn-danger {
+      background: #e74c3c;
+      color: white;
+      padding: 0.5rem 1rem;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: all 0.3s ease;
+      font-size: 0.9rem;
+    }
+
+    .btn-danger:hover {
+      background: #c0392b;
+    }
+
+    .table {
+      width: 100%;
+      border-collapse: collapse;
+      background: white;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    }
+
+    .table thead {
+      background: #f8f9fa;
+      border-bottom: 2px solid #e0e0e0;
+    }
+
+    .table th,
+    .table td {
+      padding: 1rem;
+      text-align: left;
+      border-bottom: 1px solid #e0e0e0;
+    }
+
+    .table th {
+      font-weight: 600;
+      color: #333;
+    }
+
+    .table td {
+      color: #666;
+    }
+
+    .table tbody tr:hover {
+      background: #f8f9fa;
+    }
+
+    .action-buttons {
+      display: flex;
+      gap: 0.5rem;
+    }
+
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.5);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .modal.active {
+      display: flex;
+    }
+
+    .modal-content {
+      background: white;
+      padding: 2rem;
+      border-radius: 12px;
+      width: 100%;
+      max-width: 600px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+      max-height: 90vh;
+      overflow-y: auto;
+    }
+
+    .modal-header {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: #333;
+      margin-bottom: 1.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .close-modal {
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      cursor: pointer;
+      color: #999;
+    }
+
+    .form-group {
+      margin-bottom: 1rem;
+    }
+
+    .form-group textarea {
+      width: 100%;
+      padding: 0.75rem;
+      border: 2px solid #e0e0e0;
+      border-radius: 6px;
+      font-family: inherit;
+      resize: vertical;
+      min-height: 100px;
+      transition: all 0.3s ease;
+    }
+
+    .form-group textarea:focus {
+      outline: none;
+      border-color: #667eea;
+      box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+    }
+
+    .form-actions {
+      display: flex;
+      gap: 1rem;
+      justify-content: flex-end;
+      margin-top: 1.5rem;
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 3rem;
+      color: #999;
+    }
+
+    .empty-state svg {
+      width: 100px;
+      height: 100px;
+      margin-bottom: 1rem;
+      opacity: 0.5;
+    }
+
+    @media (max-width: 768px) {
+      .sidebar {
+        width: 200px;
+      }
+
+      .main-content {
+        padding: 1rem;
+      }
+
+      .table {
+        font-size: 0.9rem;
+      }
+
+      .table th,
+      .table td {
+        padding: 0.75rem;
+      }
+
+      .action-buttons {
+        flex-direction: column;
+        gap: 0.25rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Login Form -->
+  <div class="login-container" id="loginForm">
+    <div class="login-header">
+      <h1>🎨 Admin Panel</h1>
+      <p>Manage your portfolio</p>
+    </div>
+    <form onsubmit="handleLogin(event)">
+      <div class="form-group">
+        <label>Username</label>
+        <input type="text" id="username" required>
+      </div>
+      <div class="form-group">
+        <label>Password</label>
+        <input type="password" id="password" required>
+      </div>
+      <div class="error-msg" id="errorMsg"></div>
+      <button type="submit" class="login-btn">Sign In</button>
+    </form>
+  </div>
+
+  <!-- Dashboard -->
+  <div class="dashboard" id="dashboard">
+    <div class="dashboard-container">
+      <div class="sidebar">
+        <div class="sidebar-brand">Portfolio</div>
+        <ul class="sidebar-menu">
+          <li><a class="nav-link active" onclick="switchTab('profile')">Profile</a></li>
+          <li><a class="nav-link" onclick="switchTab('skills')">Skills</a></li>
+          <li><a class="nav-link" onclick="switchTab('services')">Services</a></li>
+          <li><a class="nav-link" onclick="switchTab('projects')">Projects</a></li>
+          <li><a class="nav-link" onclick="switchTab('testimonials')">Testimonials</a></li>
+          <li><a class="nav-link" onclick="switchTab('contacts')">Contacts</a></li>
+          <li class="logout-btn"><a onclick="logout()">Logout</a></li>
+        </ul>
+      </div>
+
+      <div class="main-content">
+        <!-- Profile Section -->
+        <div id="profile" class="section active">
+          <div class="top-bar">
+            <h2>Profile Management</h2>
+          </div>
+          <form onsubmit="saveProfile(event)" class="admin-form">
+            <div class="form-group">
+              <label>Name</label>
+              <input type="text" id="profileName" required>
+            </div>
+            <div class="form-group">
+              <label>Title</label>
+              <input type="text" id="profileTitle" required>
+            </div>
+            <div class="form-group">
+              <label>Bio</label>
+              <textarea id="profileBio" required></textarea>
+            </div>
+            <div class="form-group">
+              <label>Email</label>
+              <input type="email" id="profileEmail" required>
+            </div>
+            <div class="form-group">
+              <label>Phone</label>
+              <input type="tel" id="profilePhone">
+            </div>
+            <div class="form-group">
+              <label>Location</label>
+              <input type="text" id="profileLocation">
+            </div>
+            <div class="form-group">
+              <label>GitHub Profile URL</label>
+              <input type="url" id="profileGithub">
+            </div>
+            <div class="form-group">
+              <label>LinkedIn Profile URL</label>
+              <input type="url" id="profileLinkedin">
+            </div>
+            <div class="form-group">
+              <label>Twitter Profile URL</label>
+              <input type="url" id="profileTwitter">
+            </div>
+            <div class="form-actions">
+              <button type="submit" class="btn-primary">Save Profile</button>
+            </div>
+          </form>
+        </div>
+
+        <!-- Skills Section -->
+        <div id="skills" class="section">
+          <div class="section-header">
+            <h2>Skills Management</h2>
+            <button class="btn-primary" onclick="openSkillModal()">+ Add Skill</button>
+          </div>
+          <table class="table" id="skillsTable">
+            <thead>
+              <tr>
+                <th>Category</th>
+                <th>Items</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+
+        <!-- Services Section -->
+        <div id="services" class="section">
+          <div class="section-header">
+            <h2>Services Management</h2>
+            <button class="btn-primary" onclick="openServiceModal()">+ Add Service</button>
+          </div>
+          <table class="table" id="servicesTable">
+            <thead>
+              <tr>
+                <th>Title</th>
+                <th>Price</th>
+                <th>Description</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+
+        <!-- Projects Section -->
+        <div id="projects" class="section">
+          <div class="section-header">
+            <h2>Projects Management</h2>
+            <button class="btn-primary" onclick="openProjectModal()">+ Add Project</button>
+          </div>
+          <table class="table" id="projectsTable">
+            <thead>
+              <tr>
+                <th>Title</th>
+                <th>Category</th>
+                <th>Technologies</th>
+                <th>Featured</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+
+        <!-- Testimonials Section -->
+        <div id="testimonials" class="section">
+          <div class="section-header">
+            <h2>Testimonials Management</h2>
+            <button class="btn-primary" onclick="openTestimonialModal()">+ Add Testimonial</button>
+          </div>
+          <table class="table" id="testimonialsTable">
+            <thead>
+              <tr>
+                <th>Client</th>
+                <th>Company</th>
+                <th>Rating</th>
+                <th>Message</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+
+        <!-- Contacts Section -->
+        <div id="contacts" class="section">
+          <div class="section-header">
+            <h2>Contact Messages</h2>
+          </div>
+          <table class="table" id="contactsTable">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Subject</th>
+                <th>Message</th>
+                <th>Date</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modals -->
+  <div class="modal" id="skillModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <span>Manage Skill</span>
+        <button class="close-modal" onclick="closeSkillModal()">×</button>
+      </div>
+      <form onsubmit="saveSkill(event)">
+        <div class="form-group">
+          <label>Category</label>
+          <input type="text" id="skillCategory" required>
+        </div>
+        <div class="form-group">
+          <label>Items (comma-separated)</label>
+          <textarea id="skillItems" required></textarea>
+        </div>
+        <div class="form-actions">
+          <button type="button" class="btn-secondary" onclick="closeSkillModal()">Cancel</button>
+          <button type="submit" class="btn-primary">Save Skill</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div class="modal" id="serviceModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <span>Manage Service</span>
+        <button class="close-modal" onclick="closeServiceModal()">×</button>
+      </div>
+      <form onsubmit="saveService(event)">
+        <div class="form-group">
+          <label>Title</label>
+          <input type="text" id="serviceTitle" required>
+        </div>
+        <div class="form-group">
+          <label>Description</label>
+          <textarea id="serviceDescription" required></textarea>
+        </div>
+        <div class="form-group">
+          <label>Price</label>
+          <input type="number" id="servicePrice" required>
+        </div>
+        <div class="form-group">
+          <label>Features (comma-separated)</label>
+          <textarea id="serviceFeatures"></textarea>
+        </div>
+        <div class="form-actions">
+          <button type="button" class="btn-secondary" onclick="closeServiceModal()">Cancel</button>
+          <button type="submit" class="btn-primary">Save Service</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div class="modal" id="projectModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <span>Manage Project</span>
+        <button class="close-modal" onclick="closeProjectModal()">×</button>
+      </div>
+      <form onsubmit="saveProject(event)">
+        <div class="form-group">
+          <label>Title</label>
+          <input type="text" id="projectTitle" required>
+        </div>
+        <div class="form-group">
+          <label>Description</label>
+          <textarea id="projectDescription" required></textarea>
+        </div>
+        <div class="form-group">
+          <label>Category</label>
+          <input type="text" id="projectCategory" required>
+        </div>
+        <div class="form-group">
+          <label>Technologies (comma-separated)</label>
+          <textarea id="projectTechnologies"></textarea>
+        </div>
+        <div class="form-group">
+          <label>Project Link</label>
+          <input type="url" id="projectLink">
+        </div>
+        <div class="form-group">
+          <label>GitHub Link</label>
+          <input type="url" id="projectGithub">
+        </div>
+        <div class="form-group">
+          <label>Image URL (optional)</label>
+          <input type="url" id="projectImageUrl" placeholder="https://example.com/image.jpg">
+        </div>
+        <div class="form-group">
+          <label>Or Upload Image (optional)</label>
+          <input type="file" id="projectImageFile" accept="image/*">
+        </div>
+        <div class="form-group">
+          <label>
+            <input type="checkbox" id="projectFeatured">
+            Featured Project
+          </label>
+        </div>
+        <div class="form-actions">
+          <button type="button" class="btn-secondary" onclick="closeProjectModal()">Cancel</button>
+          <button type="submit" class="btn-primary">Save Project</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div class="modal" id="testimonialModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <span>Manage Testimonial</span>
+        <button class="close-modal" onclick="closeTestimonialModal()">×</button>
+      </div>
+      <form onsubmit="saveTestimonial(event)">
+        <div class="form-group">
+          <label>Client Name</label>
+          <input type="text" id="testimonialClient" required>
+        </div>
+        <div class="form-group">
+          <label>Company</label>
+          <input type="text" id="testimonialCompany" required>
+        </div>
+        <div class="form-group">
+          <label>Message</label>
+          <textarea id="testimonialMessage" required></textarea>
+        </div>
+        <div class="form-group">
+          <label>Rating (1-5)</label>
+          <input type="number" id="testimonialRating" min="1" max="5" required>
+        </div>
+        <div class="form-actions">
+          <button type="button" class="btn-secondary" onclick="closeTestimonialModal()">Cancel</button>
+          <button type="submit" class="btn-primary">Save Testimonial</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    const API_BASE = '/api';
+    let authToken = localStorage.getItem('adminToken');
+    let currentEditId = null;
+
+    // Check if logged in
+    window.addEventListener('load', () => {
+      if (authToken) {
+        showDashboard();
+        loadAllData();
+      } else {
+        document.getElementById('loginForm').style.display = 'flex';
+      }
+    });
+
+    async function handleLogin(e) {
+      e.preventDefault();
+      const username = document.getElementById('username').value;
+      const password = document.getElementById('password').value;
+
+      try {
+        const response = await fetch(`${API_BASE}/admin/login`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ username, password })
+        });
+
+        const data = await response.json();
+
+        if (data.success) {
+          authToken = data.token;
+          localStorage.setItem('adminToken', authToken);
+          showDashboard();
+          loadAllData();
+        } else {
+          document.getElementById('errorMsg').textContent = data.error || 'Login failed';
+          document.getElementById('errorMsg').style.display = 'block';
+        }
+      } catch (err) {
+        document.getElementById('errorMsg').textContent = 'Network error';
+        document.getElementById('errorMsg').style.display = 'block';
+      }
+    }
+
+    function showDashboard() {
+      document.getElementById('loginForm').style.display = 'none';
+      document.getElementById('dashboard').style.display = 'flex';
+    }
+
+    function logout() {
+      localStorage.removeItem('adminToken');
+      authToken = null;
+      location.reload();
+    }
+
+    function switchTab(tabName) {
+      document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+      document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+      document.getElementById(tabName).classList.add('active');
+      event.target.classList.add('active');
+    }
+
+    // Profile Functions
+    async function loadProfile() {
+      try {
+        const response = await fetch(`${API_BASE}/admin/profile`, {
+          headers: { 'Authorization': `Bearer ${authToken}` }
+        });
+        const profile = await response.json();
+        if (profile && profile._id) {
+          document.getElementById('profileName').value = profile.name || '';
+          document.getElementById('profileTitle').value = profile.title || '';
+          document.getElementById('profileBio').value = profile.bio || '';
+          document.getElementById('profileEmail').value = profile.email || '';
+          document.getElementById('profilePhone').value = profile.phone || '';
+          document.getElementById('profileLocation').value = profile.location || '';
+          document.getElementById('profileGithub').value = profile.social?.github || '';
+          document.getElementById('profileLinkedin').value = profile.social?.linkedin || '';
+          document.getElementById('profileTwitter').value = profile.social?.twitter || '';
+        }
+      } catch (err) {
+        console.error('Load profile error:', err);
+      }
+    }
+
+    async function saveProfile(e) {
+      e.preventDefault();
+      const profileData = {
+        name: document.getElementById('profileName').value,
+        title: document.getElementById('profileTitle').value,
+        bio: document.getElementById('profileBio').value,
+        email: document.getElementById('profileEmail').value,
+        phone: document.getElementById('profilePhone').value,
+        location: document.getElementById('profileLocation').value,
+        social: {
+          github: document.getElementById('profileGithub').value,
+          linkedin: document.getElementById('profileLinkedin').value,
+          twitter: document.getElementById('profileTwitter').value
+        }
+      };
+
+      try {
+        await fetch(`${API_BASE}/admin/profile`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${authToken}`
+          },
+          body: JSON.stringify(profileData)
+        });
+        alert('Profile saved successfully!');
+      } catch (err) {
+        alert('Error saving profile');
+      }
+    }
+
+    // Skills Functions
+    async function loadSkills() {
+      try {
+        const response = await fetch(`${API_BASE}/admin/skills`, {
+          headers: { 'Authorization': `Bearer ${authToken}` }
+        });
+        const skills = await response.json();
+        const tbody = document.querySelector('#skillsTable tbody');
+        tbody.innerHTML = '';
+
+        skills.forEach(skill => {
+          const tr = document.createElement('tr');
+          tr.innerHTML = `
+            <td>${skill.category}</td>
+            <td>${skill.items.join(', ')}</td>
+            <td>
+              <div class="action-buttons">
+                <button class="btn-secondary" onclick="editSkill('${skill._id}')">Edit</button>
+                <button class="btn-danger" onclick="deleteSkill('${skill._id}')">Delete</button>
+              </div>
+            </td>
+          `;
+          tbody.appendChild(tr);
+        });
+      } catch (err) {
+        console.error('Load skills error:', err);
+      }
+    }
+
+    function openSkillModal(id = null) {
+      currentEditId = id;
+      if (id) {
+        // Load skill data for editing
+      }
+      document.getElementById('skillModal').classList.add('active');
+    }
+
+    function closeSkillModal() {
+      document.getElementById('skillModal').classList.remove('active');
+      currentEditId = null;
+    }
+
+    async function saveSkill(e) {
+      e.preventDefault();
+      const skillData = {
+        category: document.getElementById('skillCategory').value,
+        items: document.getElementById('skillItems').value.split(',').map(i => i.trim())
+      };
+
+      try {
+        const url = currentEditId
+          ? `${API_BASE}/admin/skills/${currentEditId}`
+          : `${API_BASE}/admin/skills`;
+        const method = currentEditId ? 'PUT' : 'POST';
+
+        await fetch(url, {
+          method,
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${authToken}`
+          },
+          body: JSON.stringify(skillData)
+        });
+
+        closeSkillModal();
+        loadSkills();
+      } catch (err) {
+        alert('Error saving skill');
+      }
+    }
+
+    async function deleteSkill(id) {
+      if (!confirm('Delete this skill?')) return;
+      try {
+        await fetch(`${API_BASE}/admin/skills/${id}`, {
+          method: 'DELETE',
+          headers: { 'Authorization': `Bearer ${authToken}` }
+        });
+        loadSkills();
+      } catch (err) {
+        alert('Error deleting skill');
+      }
+    }
+
+    // Similar functions for Services, Projects, Testimonials...
+    async function loadServices() {
+      try {
+        const response = await fetch(`${API_BASE}/admin/services`, {
+          headers: { 'Authorization': `Bearer ${authToken}` }
+        });
+        const services = await response.json();
+        const tbody = document.querySelector('#servicesTable tbody');
+        tbody.innerHTML = '';
+
+        services.forEach(service => {
+          const tr = document.createElement('tr');
+          tr.innerHTML = `
+            <td>${service.title}</td>
+            <td>$${service.price}</td>
+            <td>${service.description.substring(0, 50)}...</td>
+            <td>
+              <div class="action-buttons">
+                <button class="btn-secondary" onclick="editService('${service._id}')">Edit</button>
+                <button class="btn-danger" onclick="deleteService('${service._id}')">Delete</button>
+              </div>
+            </td>
+          `;
+          tbody.appendChild(tr);
+        });
+      } catch (err) {
+        console.error('Load services error:', err);
+      }
+    }
+
+    function openServiceModal(id = null) {
+      currentEditId = id;
+      document.getElementById('serviceModal').classList.add('active');
+    }
+
+    function closeServiceModal() {
+      document.getElementById('serviceModal').classList.remove('active');
+      currentEditId = null;
+    }
+
+    async function saveService(e) {
+      e.preventDefault();
+      const serviceData = {
+        title: document.getElementById('serviceTitle').value,
+        description: document.getElementById('serviceDescription').value,
+        price: parseFloat(document.getElementById('servicePrice').value),
+        features: document.getElementById('serviceFeatures').value.split(',').map(f => f.trim())
+      };
+
+      try {
+        const url = currentEditId
+          ? `${API_BASE}/admin/services/${currentEditId}`
+          : `${API_BASE}/admin/services`;
+        const method = currentEditId ? 'PUT' : 'POST';
+
+        await fetch(url, {
+          method,
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${authToken}`
+          },
+          body: JSON.stringify(serviceData)
+        });
+
+        closeServiceModal();
+        loadServices();
+      } catch (err) {
+        alert('Error saving service');
+      }
+    }
+
+    async function deleteService(id) {
+      if (!confirm('Delete this service?')) return;
+      try {
+        await fetch(`${API_BASE}/admin/services/${id}`, {
+          method: 'DELETE',
+          headers: { 'Authorization': `Bearer ${authToken}` }
+        });
+        loadServices();
+      } catch (err) {
+        alert('Error deleting service');
+      }
+    }
+
+    // Projects Functions
+    async function loadProjects() {
+      try {
+        const response = await fetch(`${API_BASE}/admin/projects`, {
+          headers: { 'Authorization': `Bearer ${authToken}` }
+        });
+        const projects = await response.json();
+        const tbody = document.querySelector('#projectsTable tbody');
+        tbody.innerHTML = '';
+
+        projects.forEach(project => {
+          const tr = document.createElement('tr');
+          tr.innerHTML = `
+            <td>${project.title}</td>
+            <td>${project.category}</td>
+            <td>${project.technologies.join(', ')}</td>
+            <td>${project.featured ? '✓' : ''}</td>
+            <td>
+              <div class="action-buttons">
+                <button class="btn-secondary" onclick="editProject('${project._id}')">Edit</button>
+                <button class="btn-danger" onclick="deleteProject('${project._id}')">Delete</button>
+              </div>
+            </td>
+          `;
+          tbody.appendChild(tr);
+        });
+      } catch (err) {
+        console.error('Load projects error:', err);
+      }
+    }
+
+    function openProjectModal(id = null) {
+      currentEditId = id;
+      document.getElementById('projectModal').classList.add('active');
+    }
+
+    function closeProjectModal() {
+      document.getElementById('projectModal').classList.remove('active');
+      currentEditId = null;
+    }
+
+    async function saveProject(e) {
+      e.preventDefault();
+      const projectData = {
+        title: document.getElementById('projectTitle').value,
+        description: document.getElementById('projectDescription').value,
+        category: document.getElementById('projectCategory').value,
+        technologies: document.getElementById('projectTechnologies').value.split(',').map(t => t.trim()),
+        link: document.getElementById('projectLink').value,
+        github: document.getElementById('projectGithub').value,
+        featured: document.getElementById('projectFeatured').checked
+      };
+
+      // Handle image: either URL or file upload
+      const imageUrlInput = document.getElementById('projectImageUrl').value.trim();
+      const imageFileInput = document.getElementById('projectImageFile');
+      try {
+        if (imageFileInput && imageFileInput.files && imageFileInput.files.length > 0) {
+          const form = new FormData();
+          form.append('file', imageFileInput.files[0]);
+          const uploadRes = await fetch(`${API_BASE}/admin/upload`, {
+            method: 'POST',
+            headers: { 'Authorization': `Bearer ${authToken}` },
+            body: form
+          });
+          const uploadData = await uploadRes.json();
+          if (uploadData && uploadData.url) projectData.image = uploadData.url;
+        } else if (imageUrlInput) {
+          projectData.image = imageUrlInput;
+        }
+      } catch (err) {
+        console.error('Image upload error:', err);
+        alert('Image upload failed');
+        return;
+      }
+
+      try {
+        const url = currentEditId
+          ? `${API_BASE}/admin/projects/${currentEditId}`
+          : `${API_BASE}/admin/projects`;
+        const method = currentEditId ? 'PUT' : 'POST';
+
+        await fetch(url, {
+          method,
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${authToken}`
+          },
+          body: JSON.stringify(projectData)
+        });
+
+        closeProjectModal();
+        loadProjects();
+      } catch (err) {
+        alert('Error saving project');
+      }
+    }
+
+    async function deleteProject(id) {
+      if (!confirm('Delete this project?')) return;
+      try {
+        await fetch(`${API_BASE}/admin/projects/${id}`, {
+          method: 'DELETE',
+          headers: { 'Authorization': `Bearer ${authToken}` }
+        });
+        loadProjects();
+      } catch (err) {
+        alert('Error deleting project');
+      }
+    }
+
+    // Testimonials Functions
+    async function loadTestimonials() {
+      try {
+        const response = await fetch(`${API_BASE}/admin/testimonials`, {
+          headers: { 'Authorization': `Bearer ${authToken}` }
+        });
+        const testimonials = await response.json();
+        const tbody = document.querySelector('#testimonialsTable tbody');
+        tbody.innerHTML = '';
+
+        testimonials.forEach(testimonial => {
+          const tr = document.createElement('tr');
+          tr.innerHTML = `
+            <td>${testimonial.client}</td>
+            <td>${testimonial.company}</td>
+            <td>${'⭐'.repeat(testimonial.rating)}</td>
+            <td>${testimonial.message.substring(0, 50)}...</td>
+            <td>
+              <div class="action-buttons">
+                <button class="btn-secondary" onclick="editTestimonial('${testimonial._id}')">Edit</button>
+                <button class="btn-danger" onclick="deleteTestimonial('${testimonial._id}')">Delete</button>
+              </div>
+            </td>
+          `;
+          tbody.appendChild(tr);
+        });
+      } catch (err) {
+        console.error('Load testimonials error:', err);
+      }
+    }
+
+    function openTestimonialModal(id = null) {
+      currentEditId = id;
+      document.getElementById('testimonialModal').classList.add('active');
+    }
+
+    function closeTestimonialModal() {
+      document.getElementById('testimonialModal').classList.remove('active');
+      currentEditId = null;
+    }
+
+    async function saveTestimonial(e) {
+      e.preventDefault();
+      const testimonialData = {
+        client: document.getElementById('testimonialClient').value,
+        company: document.getElementById('testimonialCompany').value,
+        message: document.getElementById('testimonialMessage').value,
+        rating: parseInt(document.getElementById('testimonialRating').value)
+      };
+
+      try {
+        const url = currentEditId
+          ? `${API_BASE}/admin/testimonials/${currentEditId}`
+          : `${API_BASE}/admin/testimonials`;
+        const method = currentEditId ? 'PUT' : 'POST';
+
+        await fetch(url, {
+          method,
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${authToken}`
+          },
+          body: JSON.stringify(testimonialData)
+        });
+
+        closeTestimonialModal();
+        loadTestimonials();
+      } catch (err) {
+        alert('Error saving testimonial');
+      }
+    }
+
+    async function deleteTestimonial(id) {
+      if (!confirm('Delete this testimonial?')) return;
+      try {
+        await fetch(`${API_BASE}/admin/testimonials/${id}`, {
+          method: 'DELETE',
+          headers: { 'Authorization': `Bearer ${authToken}` }
+        });
+        loadTestimonials();
+      } catch (err) {
+        alert('Error deleting testimonial');
+      }
+    }
+
+    // Contacts Functions
+    async function loadContacts() {
+      try {
+        const response = await fetch(`${API_BASE}/admin/contacts`, {
+          headers: { 'Authorization': `Bearer ${authToken}` }
+        });
+        const contacts = await response.json();
+        const tbody = document.querySelector('#contactsTable tbody');
+        tbody.innerHTML = '';
+
+        contacts.forEach(contact => {
+          const tr = document.createElement('tr');
+          const date = new Date(contact.createdAt).toLocaleDateString();
+          tr.innerHTML = `
+            <td>${contact.name}</td>
+            <td>${contact.email}</td>
+            <td>${contact.subject}</td>
+            <td>${contact.message.substring(0, 50)}...</td>
+            <td>${date}</td>
+          `;
+          tbody.appendChild(tr);
+        });
+      } catch (err) {
+        console.error('Load contacts error:', err);
+      }
+    }
+
+    // Load all data
+    async function loadAllData() {
+      await loadProfile();
+      await loadSkills();
+      await loadServices();
+      await loadProjects();
+      await loadTestimonials();
+      await loadContacts();
+    }
+
+    // Add similar edit functions for other items
+    async function editSkill(id) {
+      // Implementation for loading skill for editing
+      openSkillModal(id);
+    }
+
+    async function editService(id) {
+      openServiceModal(id);
+    }
+
+    async function editProject(id) {
+      try {
+        const response = await fetch(`${API_BASE}/admin/projects`, {
+          headers: { 'Authorization': `Bearer ${authToken}` }
+        });
+        const projects = await response.json();
+        const project = projects.find(p => p._id === id);
+        if (!project) return alert('Project not found');
+        currentEditId = id;
+        document.getElementById('projectTitle').value = project.title || '';
+        document.getElementById('projectDescription').value = project.description || '';
+        document.getElementById('projectCategory').value = project.category || '';
+        document.getElementById('projectTechnologies').value = (project.technologies || []).join(', ');
+        document.getElementById('projectLink').value = project.link || '';
+        document.getElementById('projectGithub').value = project.github || '';
+        document.getElementById('projectFeatured').checked = !!project.featured;
+        document.getElementById('projectImageUrl').value = project.image || '';
+        document.getElementById('projectImageFile').value = null;
+        document.getElementById('projectModal').classList.add('active');
+      } catch (err) {
+        console.error('Edit project error:', err);
+        alert('Failed to load project for editing');
+      }
+    }
+
+    async function editTestimonial(id) {
+      openTestimonialModal(id);
+    }
+  </script>
+</body>
+</html>

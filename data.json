@@ -1,0 +1,166 @@
+{
+  "profile": {
+    "name": "John Developer",
+    "title": "Full Stack Web Developer & Designer",
+    "bio": "Experienced freelance developer specializing in modern web technologies. I create stunning, responsive, and high-performance web applications.",
+    "email": "john@example.com",
+    "phone": "+1 (555) 123-4567",
+    "location": "Remote",
+    "profileImage": "assets/profile.jpg",
+    "social": {
+      "github": "https://github.com",
+      "linkedin": "https://linkedin.com",
+      "twitter": "https://twitter.com"
+    }
+  },
+  "skills": [
+    {
+      "category": "Frontend",
+      "items": ["React.js", "Vue.js", "JavaScript", "HTML/CSS", "Tailwind CSS", "Bootstrap"]
+    },
+    {
+      "category": "Backend",
+      "items": ["Node.js", "Express.js", "Python", "MongoDB", "PostgreSQL", "REST APIs"]
+    },
+    {
+      "category": "Tools & Platforms",
+      "items": ["Git", "Docker", "AWS", "Figma", "VS Code", "Linux"]
+    },
+    {
+      "category": "Soft Skills",
+      "items": ["Problem Solving", "Communication", "Project Management", "Team Collaboration"]
+    }
+  ],
+  "services": [
+    {
+      "id": 1,
+      "title": "Web Development",
+      "description": "Custom websites and web applications built with modern technologies",
+      "price": "$50/hour",
+      "features": ["Responsive Design", "SEO Optimized", "Fast Performance", "Modern Stack"]
+    },
+    {
+      "id": 2,
+      "title": "UI/UX Design",
+      "description": "Beautiful and intuitive user interfaces and experiences",
+      "price": "$45/hour",
+      "features": ["Wireframing", "Prototyping", "User Testing", "Design Systems"]
+    },
+    {
+      "id": 3,
+      "title": "Full Stack Development",
+      "description": "Complete frontend and backend solution for your project",
+      "price": "$60/hour",
+      "features": ["Custom Backend", "Database Design", "API Development", "Deployment"]
+    },
+    {
+      "id": 4,
+      "title": "Maintenance & Support",
+      "description": "Ongoing support and maintenance for your web applications",
+      "price": "$40/hour",
+      "features": ["Bug Fixes", "Updates", "Performance Optimization", "Security"]
+    }
+  ],
+  "projects": [
+    {
+      "id": 1,
+      "title": "E-commerce Platform",
+      "description": "Full-stack e-commerce solution with payment integration and inventory management",
+      "category": "Web Development",
+      "image": "assets/project1.jpg",
+      "technologies": ["React", "Node.js", "MongoDB", "Stripe"],
+      "link": "#",
+      "github": "#",
+      "featured": true
+    },
+    {
+      "id": 2,
+      "title": "Task Management App",
+      "description": "Collaborative task management tool with real-time updates",
+      "category": "Web Application",
+      "image": "assets/project2.jpg",
+      "technologies": ["Vue.js", "Firebase", "Tailwind CSS"],
+      "link": "#",
+      "github": "#",
+      "featured": true
+    },
+    {
+      "id": 3,
+      "title": "Portfolio Website",
+      "description": "Modern, responsive portfolio website with dynamic content management",
+      "category": "Web Design",
+      "image": "assets/project3.jpg",
+      "technologies": ["React", "Framer Motion", "CSS Grid"],
+      "link": "#",
+      "github": "#",
+      "featured": false
+    },
+    {
+      "id": 4,
+      "title": "Mobile Chat Application",
+      "description": "Real-time messaging app with user authentication and notifications",
+      "category": "Mobile App",
+      "image": "assets/project4.jpg",
+      "technologies": ["React Native", "Firebase", "Redux"],
+      "link": "#",
+      "github": "#",
+      "featured": false
+    },
+    {
+      "id": 5,
+      "title": "Analytics Dashboard",
+      "description": "Data visualization dashboard for business analytics",
+      "category": "Web Application",
+      "image": "assets/project5.jpg",
+      "technologies": ["React", "D3.js", "Node.js", "PostgreSQL"],
+      "link": "#",
+      "github": "#",
+      "featured": true
+    },
+    {
+      "id": 6,
+      "title": "Blog CMS",
+      "description": "Content management system with editor and analytics",
+      "category": "Web Development",
+      "image": "assets/project6.jpg",
+      "technologies": ["Next.js", "GraphQL", "MongoDB"],
+      "link": "#",
+      "github": "#",
+      "featured": false
+    }
+  ],
+  "testimonials": [
+    {
+      "id": 1,
+      "client": "Sarah Johnson",
+      "company": "Tech Startup Inc",
+      "message": "Exceptional work! John delivered the project on time and exceeded our expectations. Highly recommended!",
+      "rating": 5,
+      "image": "assets/client1.jpg"
+    },
+    {
+      "id": 2,
+      "client": "Michael Chen",
+      "company": "Digital Agency Co",
+      "message": "Outstanding developer with great communication skills. The code quality is excellent and maintainable.",
+      "rating": 5,
+      "image": "assets/client2.jpg"
+    },
+    {
+      "id": 3,
+      "client": "Emma Davis",
+      "company": "E-commerce Solutions",
+      "message": "Professional, reliable, and skilled. John transformed our vision into reality. Will definitely work again!",
+      "rating": 5,
+      "image": "assets/client3.jpg"
+    },
+    {
+      "id": 4,
+      "client": "David Wilson",
+      "company": "Startup Hub",
+      "message": "Great attention to detail and problem-solving skills. Delivered a high-quality product on schedule.",
+      "rating": 5,
+      "image": "assets/client4.jpg"
+    }
+  ]
+}
