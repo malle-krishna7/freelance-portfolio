@@ -298,5 +298,6 @@ Database automatically seeds from `data.json` on first run if collections are em
 1. Delete the MongoDB database
 2. Restart the server
 
+
 ## License
 MIT
